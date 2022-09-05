@@ -1,8 +1,10 @@
 package com.greenart.news_media.controller;
 
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
@@ -11,9 +13,13 @@ public class MainController {
         return "/index";
     }
 
-    @GetMapping("/{name}")
-    public String getCatePage(@PathVariable String name) {
+    @GetMapping("/news")
+    public String getCatePage(@RequestParam Integer cate) {
 
-        return "/cate/"+name;
+        return "/news/news";
+    }
+    @GetMapping("/user/{name}")
+    public String getUserPath(@PathVariable String name) {
+        return "/user/"+name;
     }
 }

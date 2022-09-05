@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greenart.news_media.mapper.NewsMapper">
+    <select id="selectNewsList" resultType="com.greenart.news_media.data.NewsInfoVO">
+        SELECT a.*, b.mi_name, c.ai_id, c.ai_name
+        from news_info a
+        left outer join media_info b
+        on a.ni_mi_seq = b.mi_seq
+        left outer join account_info c
+        on a.ni_ai_seq = c.ai_seq
+        where ni_cai_seq = #{seq} and ni_reg_dt = now()
+        order by rand()
+        limit 12
+    </select>
+</mapper>

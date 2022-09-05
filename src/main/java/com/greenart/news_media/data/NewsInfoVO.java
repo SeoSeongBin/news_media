@@ -16,4 +16,7 @@ public class NewsInfoVO {
     private String ni_summary;
     private Date ni_reg_dt;
     private Date ni_mod_dt;
+    private String mi_name;
+    private String ai_id;
+    private String ai_name;
 }

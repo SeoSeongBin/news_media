@@ -15,8 +15,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/assets/css/reset.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/assets/js/index.js"></script>
+    <script src="/assets/js/util.js"></script>
 </head>
 <body>
-    <h1>메인페이지</h1>
+    <section>
+        <div class="login_box">
+            <div class="input_box">
+                <input type="text" placeholder="아이디">
+                <input type="password" placeholder="비밀번호">
+            </div>
+            <div class="btn_area">
+                <button id="login">로그인</button>
+                <button id="join">회원가입</button>
+            </div>
+            <div class="serch_area">
+                <a href="">아이디 찾기</a>
+                <span> / </span>
+                <a href="">비밀번호 찾기</a>
+            </div>
+        </div>
+    </section>
 </body>
 </html>

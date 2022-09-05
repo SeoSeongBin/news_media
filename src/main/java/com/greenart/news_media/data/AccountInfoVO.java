@@ -13,4 +13,6 @@ public class AccountInfoVO {
     private Date ai_reg_dt;
     private Integer ai_status;
     private Integer ai_grade;
+    private String ai_phone;
+    private Date ai_birth;
 }

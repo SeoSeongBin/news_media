@@ -11,7 +11,7 @@ function selectCateList() {
             $("header nav ul").html("");
             for(let i = 0; i < r.cateList.length; i++){
                 let tag = 
-                    '<li><a href="">'+r.cateList[i].cai_name+'</a></li>'
+                    '<li><a href="/news?cate='+r.cateList[i].cai_seq+'">'+r.cateList[i].cai_name+'</a></li>'
                 $("header nav ul").append(tag)
             }
 

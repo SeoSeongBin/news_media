@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greenart.news_media.mapper.AccountMapper">
+    <insert id="putAccount">
+        INSERT INTO account_info
+        (ai_id, ai_pwd, ai_name, ai_phone, ai_birth)
+        VALUES(#{ai_id}, #{ai_pwd}, #{ai_name}, #{ai_phone}, #{ai_birth});
+    </insert>
+    <select id="isDuplicateId" resultType="java.lang.Boolean">
+        SELECT count(*) FROM account_info where ai_id = #{id};
+    </select>
+    <select id="isDuplicatePhone" resultType="java.lang.Boolean">
+        select count(*) from account_info where ai_phone = #{phone};
+    </select>
+</mapper>
