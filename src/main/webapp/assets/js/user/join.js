@@ -18,18 +18,19 @@ $("document").ready(function(){
             alert("생년월일을 입력해주세요")
             return;
         }
-        putAccountAdd();
+        data = {
+            ai_id:$(".id").val(),
+            ai_pwd:$(".pwd").val(),
+            ai_name:$(".name").val(),
+            ai_phone:$(".phone").val(),
+            ai_birth:$(".birth").val()
+        }
+        putAccountAdd(data);
     })
 })
 
-function putAccountAdd() {
-    data = {
-        ai_id:$(".id").val(),
-        ai_pwd:$(".pwd").val(),
-        ai_name:$(".name").val(),
-        ai_phone:$(".phone").val(),
-        ai_birth:$(".birth").val()
-    }
+function putAccountAdd(data) {
+
     $.ajax({
         url:"/api/account/add",
         type:"put",

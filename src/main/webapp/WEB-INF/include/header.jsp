@@ -19,6 +19,9 @@
 
 <script src="/assets/js/header.js"></script>
 <script src="/assets/js/util.js"></script>
+<script>
+    let user_info = "${sessionInfo}"
+</script>
 
 <header>
     <nav>

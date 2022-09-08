@@ -3,6 +3,10 @@ $("document").ready(function(){
     let param = new URLSearchParams(query);
     let cate = param.get('cate');
     selectNewsList(cate);
+    if(user_info == null || user_info == "" || user_info == undefined) {
+        alert("로그인시 확인가능합니다.");
+        location.href = "/";
+    }
 })
 
 function selectNewsList(seq) {

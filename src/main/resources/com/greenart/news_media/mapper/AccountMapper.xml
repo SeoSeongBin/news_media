@@ -13,4 +13,28 @@
     <select id="isDuplicatePhone" resultType="java.lang.Boolean">
         select count(*) from account_info where ai_phone = #{phone};
     </select>
+
+    <select id="selectLogin" resultType="java.lang.Boolean">
+        select count(*) = 1 from account_info where ai_id = #{ai_id} and ai_pwd = #{ai_pwd}
+    </select>
+
+    <select id="selectAccountLogin" resultType="com.greenart.news_media.data.AccountInfoVO">
+        SELECT ai_seq, ai_id, ai_pwd, ai_name, ai_phone, ai_birth, ai_reg_dt, ai_status, ai_grade
+        FROM account_info
+        where ai_id = #{ai_id} and ai_pwd = #{ai_pwd}
+    </select>
+
+    <select id="selectSearchId" resultType="com.greenart.news_media.data.AccountInfoVO">
+        select ai_id from account_info
+        where ai_name = #{ai_name} and ai_phone = #{ai_phone}
+    </select>
+
+    <select id="selectSearchPwd" resultType="java.lang.Boolean">
+        select count(*) = 1 from account_info
+        where ai_id = #{ai_id} and ai_name = #{ai_name} and ai_phone = #{ai_phone}
+    </select>
+
+    <select id="selectSearchCheckId" resultType="java.lang.Boolean">
+        select count(*) = 1 from account_info where ai_name = #{ai_name} and ai_phone = #{ai_phone}
+    </select>
 </mapper>
