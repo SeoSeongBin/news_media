@@ -41,7 +41,7 @@
                     </tr>
                     <tr>
                         <td>생년월일</td>
-                        <td><input class="birth" type="text"></td>
+                        <td><input class="birth" type="date"></td>
                     </tr>
                 </table>
                 <button id="join">가입하기</button>

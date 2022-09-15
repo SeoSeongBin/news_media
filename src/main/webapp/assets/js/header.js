@@ -1,5 +1,12 @@
 $("document").ready(function(){
     selectCateList();
+
+    $(".logout").click(function(){
+        selectAccountLogout();
+    })
+    $(".my_page").click(function(){
+        location.href = "/user/my_page"
+    })
 })
 
 function selectCateList() {
@@ -15,6 +22,17 @@ function selectCateList() {
                 $("header nav ul").append(tag)
             }
 
+        }
+    })
+}
+
+function selectAccountLogout() {
+    $.ajax({
+        url:"/api/account/logout",
+        type:"get",
+        success:function(r) {
+            alert("로그아웃하였습니다.");
+            location.href = "/";
         }
     })
 }

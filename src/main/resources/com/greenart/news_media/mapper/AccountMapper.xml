@@ -29,6 +29,12 @@
         where ai_name = #{ai_name} and ai_phone = #{ai_phone}
     </select>
 
+    <select id="selectSearchSeq" resultType="com.greenart.news_media.data.AccountInfoVO">
+        SELECT ai_seq
+        FROM account_info
+        where ai_id = #{ai_id} and ai_name = #{ai_name} and ai_phone = #{ai_phone}
+    </select>
+
     <select id="selectSearchPwd" resultType="java.lang.Boolean">
         select count(*) = 1 from account_info
         where ai_id = #{ai_id} and ai_name = #{ai_name} and ai_phone = #{ai_phone}
@@ -37,4 +43,20 @@
     <select id="selectSearchCheckId" resultType="java.lang.Boolean">
         select count(*) = 1 from account_info where ai_name = #{ai_name} and ai_phone = #{ai_phone}
     </select>
+
+    <update id="updateUserPwd">
+        UPDATE account_info
+        SET ai_pwd=#{pwd}
+        WHERE ai_seq=#{seq};
+    </update>
+
+    <update id="updateUserInfo">
+        UPDATE account_info
+        SET
+            ai_pwd=#{ai_pwd},
+            ai_name=#{ai_name},
+            ai_phone=#{ai_phone},
+            ai_birth=#{ai_birth}
+        WHERE ai_seq=#{ai_seq};
+    </update>
 </mapper>

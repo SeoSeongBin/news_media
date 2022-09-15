@@ -19,3 +19,12 @@ header nav ul li a {
     margin-right: 10px;
     /* border: 1px solid #000; */
 }
+
+.user_area {
+    background-color: #ddd;
+}
+
+.user_area_wrap {
+    width: 1200px;
+    margin: 0 auto;
+}

@@ -25,7 +25,9 @@ function selectSearchAccount(data) {
         contentType:"application/json",
         data:JSON.stringify(data),
         success:function(r) {
+            console.log(r);
             alert(r.msg)
+            location.href = r.url;
         },
         error:function(r) {
             alert(r.responseJSON.msg);

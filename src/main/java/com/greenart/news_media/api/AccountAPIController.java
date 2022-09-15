@@ -4,21 +4,26 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.FlashMap;
 
 import com.greenart.news_media.data.AccountInfoVO;
 import com.greenart.news_media.mapper.AccountMapper;
 import com.greenart.news_media.utils.AESAlgorithm;
+
+import ch.qos.logback.core.status.Status;
 
 @RestController
 @RequestMapping("/api/account")
@@ -97,7 +102,7 @@ public class AccountAPIController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<Map<String, Object>> getSearchAccount(@RequestBody AccountInfoVO data) {
+    public ResponseEntity<Map<String, Object>> getSearchAccount(@RequestBody AccountInfoVO data, HttpSession session) {
         Map<String, Object> m = new LinkedHashMap<String, Object>();
         HttpStatus stat = null;
 
@@ -116,7 +121,8 @@ public class AccountAPIController {
                     System.out.println(acc_mapper.selectSearchId(data).getAi_id());
                     m.put("status", true);
                     m.put("msg", "조회ID : "+acc_mapper.selectSearchId(data).getAi_id());
-                    stat = HttpStatus.OK;
+                    stat = HttpStatus.ACCEPTED;
+                    m.put("url", "/user/search");
                 }else {
                     m.put("status", false);
                     m.put("msg", "이름과 전화번호를 확인해주세요");
@@ -141,6 +147,9 @@ public class AccountAPIController {
                 if(acc_mapper.selectSearchPwd(data.getAi_id(), data.getAi_name(), data.getAi_phone())) {
                     m.put("status", true);
                     m.put("msg", "조회되었습니다.");
+                    acc_mapper.selectSearchSeq(data);
+                    m.put("url", "/user/pwd_change?seq="+acc_mapper.selectSearchSeq(data).getAi_seq());
+                    System.out.println(acc_mapper.selectSearchSeq(data));
                     stat = HttpStatus.OK;
                 }else {
                     m.put("status", false);
@@ -152,5 +161,66 @@ public class AccountAPIController {
 
 
         return new ResponseEntity<Map<String, Object>>(m, stat);
+    }
+
+    @PatchMapping("/update/pwd")
+    public ResponseEntity<Map<String,Object>> updateUserPwd(@RequestParam Integer seq, @RequestParam String pwd ) throws Exception {
+        Map<String, Object> m = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+        if(pwd.length() < 6) {
+            m.put("status", false);
+            m.put("msg", "비밀번호는 6자리를 넘겨야 합니다.");
+            stat = HttpStatus.BAD_REQUEST;
+        } else {
+            pwd = AESAlgorithm.Encrypt(pwd);
+            acc_mapper.updateUserPwd(seq, pwd);
+            m.put("status", true);
+            m.put("msg", "변경되었습니다.");
+            stat = HttpStatus.OK;
+        }
+        
+        return new ResponseEntity<Map<String, Object>>(m, stat);
+    }
+    @GetMapping("/logout")
+    public String getAccountLogout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+    @PatchMapping("/update/info")
+    public ResponseEntity<Map<String,Object>> updateUserInfo(@RequestBody AccountInfoVO data) {
+        Map<String, Object> m = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+
+        if(data.getAi_pwd().length() < 6) {
+            m.put("status", false);
+            m.put("msg", "비밀번호는 6자리를 넘겨야합니다.");
+            stat = HttpStatus.BAD_REQUEST;
+        }else if(data.getAi_name().length() < 1 || data.getAi_name() == null || data.getAi_name() == "") {
+            m.put("status", false);
+            m.put("msg", "이름을 입력해주세요");
+            stat = HttpStatus.BAD_REQUEST;
+        }else if(data.getAi_phone().length() < 11 || data.getAi_phone() == null || data.getAi_name() == "") {
+            m.put("status", false);
+            m.put("msg", "휴대전화 번호는 11자리를 넘겨야합니다.");
+            stat = HttpStatus.BAD_REQUEST;
+        }else if(acc_mapper.isDuplicatePhone(data.getAi_phone())) {
+            m.put("status", false);
+            m.put("msg", "이미 등록된 전화번호입니다.");
+            stat = HttpStatus.BAD_REQUEST;
+        } else {
+            try{
+                data.setAi_pwd(AESAlgorithm.Encrypt(data.getAi_pwd()));
+            }
+            catch(Exception e) {
+                m.put("status", false);
+                m.put("msg", "비밀번호 암호화 실패");
+                stat = HttpStatus.BAD_REQUEST;
+            }
+            acc_mapper.updateUserInfo(data);
+            m.put("status", true);
+            m.put("msg", "수정되었습니다.");
+            stat = HttpStatus.OK;
+        }
+        return new ResponseEntity<Map<String,Object>>(m, stat);
     }
 }

@@ -24,6 +24,12 @@
 </script>
 
 <header>
+    <div class="user_area">
+        <div class="user_area_wrap">
+            <button class="logout">로그아웃</button>
+            <button class="my_page">MY PAGE</button>
+        </div>
+    </div>
     <nav>
         <ul>
             <li><a href="">asdfsdaf</a></li>
